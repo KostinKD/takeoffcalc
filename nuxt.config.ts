@@ -12,7 +12,7 @@ export default defineNuxtConfig({
         },
         components: {
             prefix: 'Prime',
-            include: ['Menubar', 'Button', 'Avatar']
+            include: ['Menubar', 'Button', 'Avatar', 'Accordion', 'AccordionTab', 'Dialog', 'InputText']
         }
     },
   css: [
