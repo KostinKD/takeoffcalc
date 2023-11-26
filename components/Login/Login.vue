@@ -30,7 +30,7 @@
             <label for="password" class="text-primary-50 font-semibold">Password</label>
             <PrimeInputText id="password" class="bg-white-alpha-20 border-none p-3 text-primary-50" type="password"></PrimeInputText>
           </div>
-          <PrimeButton label="Sign in with Google" icon="pi pi-google" @click="closeCallback" text class="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"></PrimeButton>
+          <PrimeButton label="Sign in with Google" icon="pi pi-google" @click="googleSignIn()" text class="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"></PrimeButton>
 
           <div class="flex align-items-center gap-2">
             <PrimeButton label="Sign-In" @click="closeCallback" text class="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"></PrimeButton>
@@ -54,9 +54,43 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {GoogleAuthProvider, getAuth, signInWithPopup} from "firebase/auth"
+
+import {onMounted, ref} from "vue";
+
+const userLocal = ref({})
+
+
+
+
+
+function googleSignIn(){
+  const provider = new GoogleAuthProvider()
+  const auth = getAuth()
+  auth.languageCode = "en"
+
+  signInWithPopup(auth,provider).then((result) => {
+    const credential = GoogleAuthProvider.credentialFromResult(result)
+    const token = credential.accessToken
+    const user = result.user
+    userLocal.value = result.user
+    console.log('user,', user)
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+  });
+}
 
 const loginVisible = ref(true)
+
+onMounted(()=> {
+})
 
 </script>
 
