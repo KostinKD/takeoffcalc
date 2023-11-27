@@ -11,8 +11,7 @@ export default defineNuxtConfig({
             ripple: true
         },
         components: {
-            prefix: 'Prime',
-            include: ['Menubar', 'Button', 'Avatar', 'Accordion', 'AccordionTab', 'Dialog', 'InputText']
+            include: ['Menubar', 'Button', 'Avatar', 'Accordion', 'AccordionTab', 'Dialog', 'InputText','Card', 'Dropdown']
         }
     },
   css: [

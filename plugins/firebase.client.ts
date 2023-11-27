@@ -24,10 +24,10 @@ export default defineNuxtPlugin(nuxtApp=> {
     const analytics = getAnalytics(app)
     const auth = getAuth(app)
     const firestore = getFirestore(app)
-    const appCheck = initializeAppCheck(app, {
-        provider: new ReCaptchaV3Provider('6LdVbx4pAAAAAAnEGGO580B0ByZldtuKT_-Qd50R'),
-        isTokenAutoRefreshEnabled: true
-    })
+    // const appCheck = initializeAppCheck(app, {
+    //     provider: new ReCaptchaV3Provider('6LdVbx4pAAAAAAnEGGO580B0ByZldtuKT_-Qd50R'),
+    //     isTokenAutoRefreshEnabled: true
+    // })
 
     nuxtApp.vueApp.provide('auth', auth)
     nuxtApp.provide('auth', auth)

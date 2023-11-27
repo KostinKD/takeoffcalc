@@ -1,15 +1,15 @@
 <template>
   <div class="card">
-    <PrimeMenubar :model="items">
+    <Menubar :model="items">
       <template #end>
         <div class="flex align-items-center gap-2">
 <!--          <PrimeAvatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" shape="circle" />-->
-          <PrimeButton label="Login" icon="pi pi-user">
+          <Button label="Login" icon="pi pi-user">
 
-          </PrimeButton>
+          </Button>
         </div>
       </template>
-    </PrimeMenubar>
+    </Menubar>
 
   </div>
 
