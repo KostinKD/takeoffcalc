@@ -2,7 +2,7 @@
   <div class="card flex justify-content-center">
 
     <PrimeDialog
-        v-model:visible="loginVisible"
+        v-model:visible="signUpVisible"
         modal
         :pt="{
                 mask: {
@@ -23,25 +23,25 @@
             />
           </svg>
           <div class="inline-flex flex-column gap-2">
-            <label for="username" class="text-primary-50 font-semibold">Username</label>
-            <PrimeInputText id="username" class="bg-white-alpha-20 border-none p-3 text-primary-50"></PrimeInputText>
+            <label for="username" class="text-primary-50 font-semibold">Email</label>
+            <PrimeInputText id="email" v-model="creds.email" class="bg-white-alpha-20 border-none p-3 text-primary-50"></PrimeInputText>
           </div>
           <div class="inline-flex flex-column gap-2">
-            <label for="password" class="text-primary-50 font-semibold">Password</label>
-            <PrimeInputText id="password" class="bg-white-alpha-20 border-none p-3 text-primary-50" type="password"></PrimeInputText>
+            <label for="password" class="text-primary-50 font-semibold" >Password</label>
+            <PrimeInputText id="password" v-model="creds.password" class="bg-white-alpha-20 border-none p-3 text-primary-50" type="password"></PrimeInputText>
           </div>
-          <PrimeButton label="Sign in with Google" icon="pi pi-google" @click="closeCallback" text class="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"></PrimeButton>
+          <PrimeButton label="Sign up with Google" icon="pi pi-google" @click="googleSignIn()" text class="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"></PrimeButton>
 
           <div class="flex align-items-center gap-2">
-            <PrimeButton label="Sign-In" @click="closeCallback" text class="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"></PrimeButton>
+            <PrimeButton label="Register" @click="closeCallback" text class="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"></PrimeButton>
             <PrimeButton label="Cancel" @click="closeCallback" text class="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"></PrimeButton>
           </div>
           <div>
-          <small class="text-white">Don't have an account?</small>
+            <small class="text-white">Already have account?</small>
             <small class="text-white">
-              <router-link to="/registration">
+              <router-link to="/login">
                 <a>
-                  <span class="text-blue">Sign up</span>
+                  <span class="text-blue">Sign in</span>
                 </a>
               </router-link>
             </small>
@@ -54,9 +54,49 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {GoogleAuthProvider, getAuth, signInWithPopup} from "firebase/auth"
 
-const loginVisible = ref(true)
+import {onMounted, ref} from "vue";
+
+const {registerUser} = useFirebaseAuth()
+
+const creds = {
+  email: '',
+  password: '',
+}
+
+
+async function EmailAndPasswdSignUp(){
+  await registerUser(creds.email,creds.password)
+}
+
+function googleSignIn(){
+  const provider = new GoogleAuthProvider()
+  const auth = getAuth()
+  auth.languageCode = "en"
+
+  signInWithPopup(auth,provider).then((result) => {
+    const credential = GoogleAuthProvider.credentialFromResult(result)
+    const token = credential.accessToken
+    const user = result.user
+    userLocal.value = result.user
+    console.log('user,', user)
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+  });
+}
+
+const signUpVisible = ref(true)
+
+onMounted(()=> {
+})
 
 </script>
 

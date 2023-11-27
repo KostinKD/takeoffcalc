@@ -11,7 +11,6 @@
       </template>
     </PrimeMenubar>
 
-    <Login></Login>
   </div>
 
 </template>
@@ -19,7 +18,6 @@
 <script setup>
 
 
-import Login from "./Login/Login.vue";
 
 const router = useRouter()
 
