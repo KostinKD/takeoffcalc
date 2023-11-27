@@ -4,11 +4,8 @@ import {  isSupported, getAnalytics } from "firebase/analytics";
 import {defineNuxtPlugin, useNuxtApp, useRuntimeConfig} from "nuxt/app";
 import {getAuth} from "@firebase/auth";
 import {getFirestore} from "@firebase/firestore";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { initializeAppCheck, ReCaptchaV3Provider} from "@firebase/app-check";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 export default defineNuxtPlugin(nuxtApp=> {
     const config = useRuntimeConfig()
 
@@ -27,6 +24,10 @@ export default defineNuxtPlugin(nuxtApp=> {
     const analytics = getAnalytics(app)
     const auth = getAuth(app)
     const firestore = getFirestore(app)
+    const appCheck = initializeAppCheck(app, {
+        provider: new ReCaptchaV3Provider('6LdVbx4pAAAAAAnEGGO580B0ByZldtuKT_-Qd50R'),
+        isTokenAutoRefreshEnabled: true
+    })
 
     nuxtApp.vueApp.provide('auth', auth)
     nuxtApp.provide('auth', auth)
